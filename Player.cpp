@@ -2,7 +2,7 @@
 #include "Player.h"
 using namespace std;
 
-Player::Player(){}
+Player::Player() {}
 
 string Player::getName() {
 	return this->name;

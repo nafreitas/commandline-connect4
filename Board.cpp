@@ -11,8 +11,9 @@ Board::Board() {
 		}
 	}
 }
-/*printBoard iterates through the 2d array and print the elemtns with the pipe symbol
- * surrounding each element*/
+/* printBoard iterates through the 2d array and print the elemtns with the pipe symbol
+ * surrounding each element as well as some additional formatting to replicate the
+ * look of a real connect 4 board*/
 void Board::printBoard(Board c) {
 	cout << endl << " ===============" << endl;
 	for (int i = 0; i < 6; i++) {
@@ -92,13 +93,13 @@ void Board::insertChar(Board* b, int column, int player) {
 			break;
 		}//if
 		else rows--;
-	}
+	}//for
 	if (foundMove == false) {
 		int move = Board::invalidMove();
 		Board::insertChar(b, move, player);
 	}
 }//insertChar
-/*horizontalCheck checks if a player connected 4 horizontally*/
+/*winCheck checks if a player connected 4 in any direction*/
 int Board::winCheck(Board* b, int playerwins) {
 	int stillinprogress = 0;
 	for (int i = 0; i < 6; i++)
@@ -106,30 +107,28 @@ int Board::winCheck(Board* b, int playerwins) {
 		for (int j = 0; j < 7; j++)
 		{
 			/*compares the next 3 elements in the row that aren't underscores for a match*/
-			if (b->gameBoard[i][j] != '_' && j<=3 &&
+			if (b->gameBoard[i][j] != '_' && j <= 3 &&
 				b->gameBoard[i][j] == b->gameBoard[i][j + 1] &&
 				b->gameBoard[i][j] == b->gameBoard[i][j + 2] &&
 				b->gameBoard[i][j] == b->gameBoard[i][j + 3]) {
 				return playerwins;//returns gamestate indicating whether player 1 or 2 won
 			}//if
-			if (b->gameBoard[i][j] != '_' && i<=2 &&
+			if (b->gameBoard[i][j] != '_' && i <= 2 &&
 				b->gameBoard[i][j] == b->gameBoard[i + 1][j] &&
 				b->gameBoard[i][j] == b->gameBoard[i + 2][j] &&
 				b->gameBoard[i][j] == b->gameBoard[i + 3][j]) {
 				return playerwins;
 			}
-			if (b->gameBoard[i][j] != '_' && j<=3 && i<=2 &&
+			if (b->gameBoard[i][j] != '_' && j <= 3 && i <= 2 &&
 				b->gameBoard[i][j] == b->gameBoard[i + 1][j + 1] &&
 				b->gameBoard[i][j] == b->gameBoard[i + 2][j + 2] &&
-				b->gameBoard[i][j] == b->gameBoard[i + 3][j + 3]) 
-			{
+				b->gameBoard[i][j] == b->gameBoard[i + 3][j + 3]) {
 				return playerwins;
 			}
 			if (b->gameBoard[i][j] != '_' && j >= 3 && i <= 2 &&
 				b->gameBoard[i][j] == b->gameBoard[i + 1][j - 1] &&
 				b->gameBoard[i][j] == b->gameBoard[i + 2][j - 2] &&
-				b->gameBoard[i][j] == b->gameBoard[i + 3][j - 3]) 
-			{
+				b->gameBoard[i][j] == b->gameBoard[i + 3][j - 3]) {
 				return playerwins;
 			}// if
 		}//for j
@@ -137,12 +136,15 @@ int Board::winCheck(Board* b, int playerwins) {
 	return stillinprogress;
 }//winCheck
 
+/*moveCheck makes sure a player entered an integer within the accepted 1-7 range*/
 int Board::moveCheck(int move) {
 	if (move >= 0 && move <= 6)
 		return move;
 	else return Board::invalidMove();
 }
-
+/*invalidMove makes sure they aren't inputting character strings,
+ *and also makes sure that they aren't trying to make a move where
+ *the column is already full*/
 int Board::invalidMove() {
 	cout << "Invalid move selection, please pick a column 1-7 that isn't full." << endl;
 	int move;
