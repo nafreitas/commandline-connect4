@@ -1,4 +1,7 @@
 # commandline-connect4
+
+![Screenshot](/screenshot.jpg?raw=true "Example")
+
 Program accepts 2 CLI to start.
 -h signifies that a player is human controlled, and -c signifies CPU controlled
 
